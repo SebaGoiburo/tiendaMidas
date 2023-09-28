@@ -27,4 +27,12 @@ public class ShoppingCartService {
     userRepository.updateShoppingCart(userCart, userId);
   }
 
+  public void eliminarProducto(Integer productId, Integer userId) {
+
+    UserTienda user = userRepository.buscarPorId(userId);
+    ArrayList<Product> userCart = (ArrayList<Product>) user.getUserShoppingCart();
+    userCart.removeIf(uC -> uC.getId() == productId);
+    userRepository.updateShoppingCart(userCart, userId);
+  }
+
 }
