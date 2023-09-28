@@ -7,10 +7,14 @@ import java.util.List;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import com.tiendaMidas.tiendaMidas.enums.PaymentMethod;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -27,7 +31,7 @@ public class Purchase {
 
   @ManyToOne
   @JoinColumn(nullable = false)
-  private User userPurchase;
+  private UserTienda userPurchase;
 
   @JdbcTypeCode(SqlTypes.JSON)
   private List<Product> purchaseProducts;
@@ -42,7 +46,7 @@ public class Purchase {
   public Purchase() {
   }
 
-  public Purchase(User userPurchase, List<Product> purchaseProducts, Double monto, LocalDate date,
+  public Purchase(UserTienda userPurchase, List<Product> purchaseProducts, Double monto, LocalDate date,
       PaymentMethod paymentMethod) {
     this.userPurchase = userPurchase;
     this.purchaseProducts = purchaseProducts;

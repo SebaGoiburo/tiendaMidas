@@ -6,11 +6,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 public class config {
-  
+
   @Autowired
-    public BCryptPasswordEncoder encoder() {
-        return new BCryptPasswordEncoder();
-    }
-    
-}
+  public BCryptPasswordEncoder encoder() {
+    return new BCryptPasswordEncoder();
+  }
+
 }
