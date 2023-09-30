@@ -43,28 +43,27 @@ public class UserService implements UserDetailsService {
   private String mensaje = "No existe ningún usuario asociado con el ID %s";
 
   @Transactional
-  public void create(UserTienda dto, MultipartFile image) throws SpringException {
-    if (userRepository.existsByEmail(dto.getEmail())) {
+  public void create(String email, String password, String userName, MultipartFile image) throws SpringException {
+    if (userRepository.existsByEmail(email)) {
       throw new SpringException("Ya existe un usuario asociado al correo ingresado");
     }
     UserTienda userTienda = new UserTienda();
-    userTienda.setEmail(dto.getEmail());
-    userTienda.setUser_name(dto.getUser_name());
-    userTienda.setPassword(encoder.encode(dto.getPassword()));
+    userTienda.setEmail(email);
+    userTienda.setUser_name(userName);
+    userTienda.setPassword(encoder.encode(password));
+    //Si el usuario no ingresa una foto, le seteamos una foto por defecto
     if (image.isEmpty()) {
       userTienda.setUserImage(imageRepository.findByNombre("user"));
     } else {
       userTienda.setUserImage(imageService.keep(image));
     }
     userTienda.setAlta(true);
-
+    //Si se trata del primer usuario en registrarse, lo convertimos en Administrador, si no le damos el estatus de Cliente
     if (userRepository.findAll().isEmpty()) {
       userTienda.setRol(Rol.ADMIN);
-    } else if (dto.getRol() == null) {
+    } else (dto.getRol() == null) {
       userTienda.setRol(Rol.CUSTOMER);
-    } else {
-      userTienda.setRol(dto.getRol());
-    }
+    } 
     userRepository.save(userTienda);
   }
 
@@ -82,7 +81,7 @@ public class UserService implements UserDetailsService {
     userRepository.save(userTienda);
   }
 
-  @Transactional(readOnly = true)
+  
   public List<UserTienda> findAll() {
     return userRepository.findAll();
   }

@@ -30,22 +30,17 @@ public class ShoppingCart {
     @JoinColumn(nullable = false)
     private UserTienda userShoppingCart;
 
-    private ArrayList<Product> purchaseList;
+    private ArrayList<Product> productList;
 
     private double precioTotal;
-
-    @Enumerated(EnumType.STRING)
-    private ShoppingCartState estado;
 
     public ShoppingCart() {
     }
 
-    public ShoppingCart(UserTienda userShoppingCart, ArrayList<Product> purchaseList, double precioTotal,
-            ShoppingCartState estado) {
+    public ShoppingCart(UserTienda userShoppingCart, ArrayList<Product> productList, double precioTotal) {
         this.userShoppingCart = userShoppingCart;
-        this.purchaseList = purchaseList;
+        this.productList = productList;
         this.precioTotal = precioTotal;
-        this.estado = estado;
     }
 
 }

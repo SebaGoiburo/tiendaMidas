@@ -17,8 +17,6 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String Categoria;
-
     private String nombre;
 
     private double precio;
@@ -33,10 +31,10 @@ public class Product {
     public Product() {
     }
 
-    public Product(String categoria, String nombre, double precio, Image productImage) {
-        Categoria = categoria;
+    public Product(String categoria, String nombre, double precio, int stock, Image productImage) {
         this.nombre = nombre;
         this.precio = precio;
+        this.stock = stock;
         this.productImage = productImage;
     }
 

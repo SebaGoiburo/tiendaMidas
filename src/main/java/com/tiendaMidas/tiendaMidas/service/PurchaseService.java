@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tiendaMidas.tiendaMidas.entities.Product;
 import com.tiendaMidas.tiendaMidas.entities.Purchase;
+import com.tiendaMidas.tiendaMidas.entities.UserTienda;
 import com.tiendaMidas.tiendaMidas.exception.SpringException;
 import com.tiendaMidas.tiendaMidas.repository.PurchaseRepository;
 
@@ -19,18 +20,23 @@ public class PurchaseService {
   @Autowired
   private PurchaseRepository purchaseRepository;
 
+  @Autowired
+  private UserService userService;
+
   private final String MENSAJE = "No existe ningún ticket asociado con el ID %s";
 
   @Transactional
-  public void create(Purchase dto) throws SpringException {
-
+  public void create(Integer id) throws SpringException {
+    //Recupero el id del cliente y creo una compra, seteo sus atributos según el carrito de compras que tiene vigente el cliente
+    //y una vez que creo la compra, borro el carrito de ese cliente porque ahora, ha pasado a ser
+    // un item de "Purchases", de compras hechas por ese cliente 
     Purchase compra = new Purchase();
-    compra.setUserPurchase(dto.getUserPurchase());
-    compra.setPurchaseProducts((ArrayList<Product>) dto.getPurchaseProducts());
-    compra.setMonto(dto.getMonto());
+    compra.setUserPurchase(userService.findById(id));
+    compra.setPurchaseProducts(userService.findById(id).getShoppingCart().getProductList());
+    compra.setMonto(userService.findById(id).getShoppingCart().getPrecioTotal());
     compra.setDate(LocalDate.now());
-    compra.setPaymentMethod(dto.getPaymentMethod());
     purchaseRepository.save(compra);
+    userService.findById(id).setShoppingCart(null);  
   }
 
   @Transactional(readOnly = true)

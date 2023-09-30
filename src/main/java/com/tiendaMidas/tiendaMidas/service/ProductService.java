@@ -23,14 +23,15 @@ public class ProductService {
   private String mensaje = "No existe ningún producto asociado con el ID %s";
 
   @Transactional
-  public void crear(Product dto, MultipartFile img) throws SpringException {
-    if (productRepository.existsByNombre(dto.getNombre())) {
+  public void createProduct(String nombre, Double precio, Integer stock, MultipartFile img) throws SpringException {
+    if (productRepository.existsByNombre(nombre)) {
       throw new SpringException("Ya existe un producto registrado con ese nombre");
     }
     Product producto = new Product();
-    producto.setNombre(dto.getNombre());
-    producto.setPrecio(dto.getPrecio());
-    producto.setStock(dto.getStock());
+    producto.setNombre(nombre);
+    producto.setPrecio(precio);
+    producto.setStock(stock);
+    //Se valida si el usuario ingresa una imagen antes de setearla en el atributo del objeto producto
     if (!img.isEmpty()) {
       producto.setProductImage(imageService.keep(img));
     }
@@ -39,12 +40,13 @@ public class ProductService {
   }
 
   @Transactional
-  public void modificar(Product dto, MultipartFile img) throws SpringException {
-    Product producto = productRepository.findById(dto.getId())
-        .orElseThrow(() -> new SpringException(String.format(mensaje, dto.getId())));
-    producto.setNombre(dto.getNombre());
-    producto.setPrecio(dto.getPrecio());
-    producto.setStock(dto.getStock());
+  public void modificar(Integer id, String nombre, Double precio, Integer stock, MultipartFile img) throws SpringException {
+    Product producto = productRepository.findById(id)
+        .orElseThrow(() -> new SpringException(String.format(mensaje, id)));
+    producto.setNombre(nombre);
+    producto.setPrecio(precio);
+    producto.setStock(stock);
+    //Se valida si el usuario ingresa una imagen antes de setearla en el atributo del objeto producto
     if (!img.isEmpty()) {
       producto.setProductImage(imageService.keep(img));
     }

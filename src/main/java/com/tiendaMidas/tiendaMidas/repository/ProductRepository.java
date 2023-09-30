@@ -19,6 +19,8 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
   boolean existsByNombre(String nombre);
 
+  boolean existById(Integer id);
+
   @Modifying
   @Query("UPDATE Producto p SET p.alta = true WHERE p.id = :id")
   void enable(@Param("id") Integer id);

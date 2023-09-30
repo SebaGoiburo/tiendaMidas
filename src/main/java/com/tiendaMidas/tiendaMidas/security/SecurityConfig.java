@@ -24,18 +24,15 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/signup", "/home" ,"/login", "/registro", "/usuario/crear" , "/css/*", "/assets/*", "/img/*", "/templates/fragments/*", "/foto/*").permitAll()
+                        .requestMatchers("/signin" ,"/login").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                                 .loginPage("/login")
                                 .usernameParameter("email")
                                 .passwordParameter("password")
-                                .defaultSuccessUrl("/home", true)
-                                .failureUrl( "/login?error=true")
                         )
                 .logout(logout -> logout
                     .logoutUrl("/logout")
-                    .logoutSuccessUrl("/home")
                     .invalidateHttpSession(true)
                     .deleteCookies("JSESSIONID"))
                 .csrf()

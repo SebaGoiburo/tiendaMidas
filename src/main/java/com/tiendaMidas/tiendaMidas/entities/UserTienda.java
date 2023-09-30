@@ -17,8 +17,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
+@Data
 @Table(name = "user")
 public class UserTienda {
 
@@ -36,7 +38,10 @@ public class UserTienda {
   private String password;
 
   @Column
-  private List<Product> userShoppingCart;
+  private ShoppingCart ShoppingCart;
+
+  @Column
+  private ShoppingCart ShoppingCartAbandonated;
 
   @JdbcTypeCode(SqlTypes.JSON)
   private List<Purchase> purchases;
@@ -59,77 +64,6 @@ public class UserTienda {
     this.userImage = userImage;
   }
 
-  public Integer getId() {
-    return id;
-  }
-
-  public String getUser_name() {
-    return user_name;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  public List<Product> getUserShoppingCart() {
-    return userShoppingCart;
-  }
-
-  public List<Purchase> getPurchases() {
-    return purchases;
-  }
-
-  public Image getUserImage() {
-    return userImage;
-  }
-
-  public Rol getRol() {
-    return rol;
-  }
-
-  public Boolean getAlta() {
-    return alta;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public void setUser_name(String user_name) {
-    this.user_name = user_name;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-  public void setUserShoppingCart(List<Product> userShoppingCart) {
-    this.userShoppingCart = userShoppingCart;
-  }
-
-  public void setPurchases(List<Purchase> purchases) {
-    this.purchases = purchases;
-  }
-
-  public void setUserImage(Image userImage) {
-    this.userImage = userImage;
-  }
-
-  public void setRol(Rol rol) {
-    this.rol = rol;
-  }
-
-  public void setAlta(Boolean alta) {
-    this.alta = alta;
-  }
 
   @Override
   public String toString() {

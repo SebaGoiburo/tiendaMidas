@@ -33,26 +33,20 @@ public class Purchase {
   @JoinColumn(nullable = false)
   private UserTienda userPurchase;
 
-  @JdbcTypeCode(SqlTypes.JSON)
   private List<Product> purchaseProducts;
 
   private Double monto;
 
   private LocalDate date;
 
-  @Enumerated(EnumType.STRING)
-  private PaymentMethod paymentMethod;
-
   public Purchase() {
   }
 
-  public Purchase(UserTienda userPurchase, List<Product> purchaseProducts, Double monto, LocalDate date,
-      PaymentMethod paymentMethod) {
+  public Purchase(UserTienda userPurchase, List<Product> purchaseProducts, Double monto, LocalDate date) {
     this.userPurchase = userPurchase;
     this.purchaseProducts = purchaseProducts;
     this.monto = monto;
     this.date = date;
-    this.paymentMethod = paymentMethod;
   }
 
 }
