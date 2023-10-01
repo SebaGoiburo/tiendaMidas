@@ -1,10 +1,6 @@
 package com.tiendaMidas.tiendaMidas.entities;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 import com.tiendaMidas.tiendaMidas.enums.Rol;
 
@@ -15,6 +11,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -37,13 +34,10 @@ public class UserTienda {
   @Column(nullable = false)
   private String password;
 
-  @Column
-  private ShoppingCart ShoppingCart;
+  @OneToMany
+  private List<Product> ShoppingCart;
 
-  @Column
-  private ShoppingCart ShoppingCartAbandonated;
-
-  @JdbcTypeCode(SqlTypes.JSON)
+  @OneToMany
   private List<Purchase> purchases;
 
   @OneToOne
@@ -57,18 +51,12 @@ public class UserTienda {
   public UserTienda() {
   }
 
+
   public UserTienda(String user_name, String email, String password, Image userImage) {
     this.user_name = user_name;
     this.email = email;
     this.password = password;
     this.userImage = userImage;
-  }
-
-
-  @Override
-  public String toString() {
-    return "User [id=" + id + ", user_name=" + user_name + ", email=" + email + ", password=" + password
-        + ", purchases=" + purchases + ", userImage=" + userImage + ", rol=" + rol + ", alta=" + alta + "]";
   }
 
 }

@@ -17,16 +17,7 @@ public interface UserRepository extends JpaRepository<UserTienda, Integer> {
 
   Optional<UserTienda> findByEmail(String emailString);
 
-  UserTienda buscarPorId(Integer id);
-
   boolean existsByEmail(String emailString);
 
-  @Modifying
-  @Query("UPDATE User u SET u.alta = true WHERE u.id = :id")
-  void enable(@Param("id") Integer id);
-
-  @Modifying
-  @Query("UPDATE User u SET u.userShoppingCart = :cart WHERE u.id = :id")
-  void updateShoppingCart(@Param("cart") List<Product> cart, @Param("id") Integer id);
 
 }

@@ -1,9 +1,9 @@
 package com.tiendaMidas.tiendaMidas.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tiendaMidas.tiendaMidas.entities.Product;
+import com.tiendaMidas.tiendaMidas.entities.UserTienda;
 import com.tiendaMidas.tiendaMidas.exception.SpringException;
 import com.tiendaMidas.tiendaMidas.repository.ProductRepository;
 import com.tiendaMidas.tiendaMidas.service.ProductService;
+import com.tiendaMidas.tiendaMidas.service.UserService;
 
 @RestController
 @RequestMapping("/product")
@@ -29,6 +31,9 @@ public class ProductController {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/listProducts")
     @ResponseBody
@@ -55,13 +60,24 @@ public class ProductController {
 
     @DeleteMapping("delete/{id}")
     public void deleteProduct(@PathVariable Integer id){
-        if(productRepository.existById(id)){
+        if(productRepository.findById(id).isPresent()){
                 productService.eliminar(id);
         }
     }
     
 
+    @PostMapping("{idProduct}/addToCart/{idUser}")
+    public void addToCart(@PathVariable Integer idProduct, Integer idUser){
+        try {
+        Product p = productService.buscarPorId(idProduct);
+        UserTienda u = userService.findById(idUser);
+        ArrayList<Product> l = (ArrayList<Product>) u.getShoppingCart();
+        l.add(p);
+        u.setShoppingCart(l);
+        } catch (SpringException e) {
+        }
+    }
 
-
+    
 
 }

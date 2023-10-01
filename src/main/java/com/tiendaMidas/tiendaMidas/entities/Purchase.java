@@ -1,22 +1,15 @@
 package com.tiendaMidas.tiendaMidas.entities;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
-
-import com.tiendaMidas.tiendaMidas.enums.PaymentMethod;
-
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -33,6 +26,7 @@ public class Purchase {
   @JoinColumn(nullable = false)
   private UserTienda userPurchase;
 
+  @OneToMany
   private List<Product> purchaseProducts;
 
   private Double monto;

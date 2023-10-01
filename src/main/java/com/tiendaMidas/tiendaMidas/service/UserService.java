@@ -1,7 +1,9 @@
 package com.tiendaMidas.tiendaMidas.service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,6 +20,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tiendaMidas.tiendaMidas.entities.Image;
+import com.tiendaMidas.tiendaMidas.entities.Product;
 import com.tiendaMidas.tiendaMidas.entities.UserTienda;
 import com.tiendaMidas.tiendaMidas.enums.Rol;
 import com.tiendaMidas.tiendaMidas.exception.SpringException;
@@ -61,7 +64,7 @@ public class UserService implements UserDetailsService {
     //Si se trata del primer usuario en registrarse, lo convertimos en Administrador, si no le damos el estatus de Cliente
     if (userRepository.findAll().isEmpty()) {
       userTienda.setRol(Rol.ADMIN);
-    } else (dto.getRol() == null) {
+    } else {
       userTienda.setRol(Rol.CUSTOMER);
     } 
     userRepository.save(userTienda);
@@ -81,7 +84,7 @@ public class UserService implements UserDetailsService {
     userRepository.save(userTienda);
   }
 
-  
+  @Transactional(readOnly = true)
   public List<UserTienda> findAll() {
     return userRepository.findAll();
   }
@@ -91,14 +94,20 @@ public class UserService implements UserDetailsService {
     return userRepository.findById(id).orElseThrow(() -> new SpringException(String.format(mensaje, id)));
   }
 
-  @Transactional
-  public void enable(Integer id) {
-    userRepository.enable(id);
-  }
 
   @Transactional
   public void deleteById(Integer id) {
     userRepository.deleteById(id);
+  }
+
+  @Transactional
+  public void deleteShoppingCart(Integer idUser){
+    Optional<UserTienda> u = userRepository.findById(idUser);
+    if (u.isPresent()) {
+        ArrayList<Product> newShoppingCart = new ArrayList<Product>();
+        u.get().setShoppingCart(newShoppingCart);
+        userRepository.save(u.get());
+    }
   }
 
   @Override

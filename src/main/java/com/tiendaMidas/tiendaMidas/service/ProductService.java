@@ -24,7 +24,7 @@ public class ProductService {
 
   @Transactional
   public void createProduct(String nombre, Double precio, Integer stock, MultipartFile img) throws SpringException {
-    if (productRepository.existsByNombre(nombre)) {
+    if (productRepository.findByNombre(nombre).isPresent()) {
       throw new SpringException("Ya existe un producto registrado con ese nombre");
     }
     Product producto = new Product();
@@ -58,11 +58,7 @@ public class ProductService {
     return productRepository.findAll();
   }
 
-  @Transactional
-  public void enable(Integer id) {
-    productRepository.enable(id);
-  }
-
+  
   @Transactional
   public void eliminar(Integer id) {
     productRepository.deleteById(id);
