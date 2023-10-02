@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,6 +44,7 @@ public class ProductController {
     }
 
     @PostMapping("/createProduct")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public void createProduct(@RequestParam String nombre, Double precio, Integer stock, MultipartFile imageProduct ){
         try {
             productService.createProduct(nombre, precio, stock, imageProduct);
@@ -51,6 +53,7 @@ public class ProductController {
     }
     
     @PutMapping("/update/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public void updateProduct(@PathVariable Integer id, String nombre, Double precio, Integer stock, MultipartFile image){
         try {
             productService.modificar(id, nombre, precio, stock, image);
@@ -59,6 +62,7 @@ public class ProductController {
     }
 
     @DeleteMapping("delete/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public void deleteProduct(@PathVariable Integer id){
         if(productRepository.findById(id).isPresent()){
                 productService.eliminar(id);

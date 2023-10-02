@@ -2,6 +2,7 @@ package com.tiendaMidas.tiendaMidas.controllers;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,6 +35,7 @@ public class UserController {
     }    
 
     @GetMapping("/listUsers")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @ResponseBody
     public List<UserTienda> listUsers(){
         List<UserTienda> list= userService.listUsers();
@@ -41,6 +43,7 @@ public class UserController {
     }
 
     @GetMapping("/deleteShoppingCart/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public void deleteShoppingCart(@PathVariable Integer id){
         userService.deleteShoppingCart(id);
     }    
