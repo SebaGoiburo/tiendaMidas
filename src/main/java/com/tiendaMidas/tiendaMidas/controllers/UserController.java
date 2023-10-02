@@ -26,7 +26,7 @@ public class UserController {
     @PostMapping("/singin")
     public void signin(@RequestParam String email, String password, String userName, MultipartFile image,  HttpServletRequest request){
         try {
-            userService.create(email, password, userName, image);
+            userService.createUser(email, password, userName, image);
             request.login(email, password);
         } catch (SpringException e) {
         } catch (ServletException e) {
@@ -36,7 +36,7 @@ public class UserController {
     @GetMapping("/listUsers")
     @ResponseBody
     public List<UserTienda> listUsers(){
-        List<UserTienda> list= userService.findAll();
+        List<UserTienda> list= userService.listUsers();
         return list;
     }
 

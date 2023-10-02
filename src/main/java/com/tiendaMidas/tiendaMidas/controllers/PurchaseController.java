@@ -24,7 +24,7 @@ public class PurchaseController {
     @PostMapping("/buy/{id}")
     public void buy(@PathVariable Integer id){
         try {
-            purchaseService.create(id);
+            purchaseService.createPurchase(id);
         } catch (SpringException e) {
         }
     }

@@ -25,14 +25,14 @@ public class PurchaseService {
   private final String MENSAJE = "No existe ningún ticket asociado con el ID %s";
 
   @Transactional
-  public void create(Integer idUser) throws SpringException {
+  public void createPurchase(Integer idUser) throws SpringException {
     //Recupero el id del cliente y creo una compra, seteo sus atributos según el carrito de compras que tiene vigente el cliente
     //y una vez que creo la compra, borro el carrito de ese cliente porque ahora, ha pasado a ser
     // un item de "Purchases", de compras hechas por ese cliente 
     Purchase compra = new Purchase();
-    compra.setUserPurchase(userService.findById(idUser));
-    compra.setPurchaseProducts(userService.findById(idUser).getShoppingCart());
-    ArrayList<Product> p = (ArrayList<Product>)userService.findById(idUser).getShoppingCart();
+    compra.setUserPurchase(userService.findUserById(idUser));
+    compra.setPurchaseProducts(userService.findUserById(idUser).getShoppingCart());
+    ArrayList<Product> p = (ArrayList<Product>)userService.findUserById(idUser).getShoppingCart();
     Double monto=0.00;
     for (Product product : p) {
       monto += product.getPrecio();

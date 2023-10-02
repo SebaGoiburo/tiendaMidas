@@ -46,7 +46,7 @@ public class UserService implements UserDetailsService {
   private String mensaje = "No existe ningún usuario asociado con el ID %s";
 
   @Transactional
-  public void create(String email, String password, String userName, MultipartFile image) throws SpringException {
+  public void createUser(String email, String password, String userName, MultipartFile image) throws SpringException {
     if (userRepository.existsByEmail(email)) {
       throw new SpringException("Ya existe un usuario asociado al correo ingresado");
     }
@@ -71,7 +71,7 @@ public class UserService implements UserDetailsService {
   }
 
   @Transactional
-  public void update(UserTienda dto, MultipartFile image) throws SpringException {
+  public void updateUser(UserTienda dto, MultipartFile image) throws SpringException {
     UserTienda userTienda = userRepository.findById(dto.getId())
         .orElseThrow(() -> new SpringException(String.format(mensaje, dto.getId())));
     userTienda.setUser_name(dto.getUser_name());
@@ -85,18 +85,18 @@ public class UserService implements UserDetailsService {
   }
 
   @Transactional(readOnly = true)
-  public List<UserTienda> findAll() {
+  public List<UserTienda> listUsers() {
     return userRepository.findAll();
   }
 
   @Transactional(readOnly = true)
-  public UserTienda findById(Integer id) throws SpringException {
+  public UserTienda findUserById(Integer id) throws SpringException {
     return userRepository.findById(id).orElseThrow(() -> new SpringException(String.format(mensaje, id)));
   }
 
 
   @Transactional
-  public void deleteById(Integer id) {
+  public void deleteUserById(Integer id) {
     userRepository.deleteById(id);
   }
 

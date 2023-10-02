@@ -70,7 +70,7 @@ public class ProductController {
     public void addToCart(@PathVariable Integer idProduct, Integer idUser){
         try {
         Product p = productService.buscarPorId(idProduct);
-        UserTienda u = userService.findById(idUser);
+        UserTienda u = userService.findUserById(idUser);
         ArrayList<Product> l = (ArrayList<Product>) u.getShoppingCart();
         l.add(p);
         u.setShoppingCart(l);

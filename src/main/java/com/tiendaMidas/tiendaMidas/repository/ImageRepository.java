@@ -8,6 +8,5 @@ import com.tiendaMidas.tiendaMidas.entities.Image;
 @Repository
 public interface ImageRepository extends JpaRepository<Image, Integer> {
 
-  Image findByNombre(String nombre);
 
 }
