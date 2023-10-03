@@ -19,7 +19,7 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JwtService {
 
-    private final String SECRET_KEY="TiendaSeba260190ParaMidasConsultores";
+    private final String SECRET_KEY="TiendaSeba260190ParaMidasConsultores7586748958733637237T2BVRCRRFRVFNGY5YN4T85NNMCICRESFHSGMYYMSGYXYYMSIESGYSDYMRDDYMFYFS";
     
     public String getToken(UserDetails user){
     return getToken(new HashMap<>(), user);

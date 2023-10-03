@@ -1,6 +1,5 @@
 package com.tiendaMidas.tiendaMidas.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,6 +21,7 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final JwtService jwtService;
+    private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
     public AuthResponse login(LoginRequest request){
@@ -37,11 +37,11 @@ public class AuthService {
         UserTienda user = UserTienda.builder()
             .username(request.getUsername())
             .email(request.getEmail())
-            .password(request.getPassword())
+            .password(passwordEncoder.encode(request.getPassword()))
             // .ShoppingCart(request.getShoppingCart())
             // .purchases(request.getPurchases())
             // .userImage(request.getUserImage())
-            .rol(Rol.CUSTOMER)
+            .rol(Rol.ADMIN)
             .alta(true)
             .build();
             

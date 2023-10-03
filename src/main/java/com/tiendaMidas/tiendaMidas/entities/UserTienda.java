@@ -24,7 +24,6 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Data
@@ -66,25 +65,17 @@ public class UserTienda implements UserDetails{
   public UserTienda() {
   }
 
-
-  public UserTienda(String username, String email, String password, Image userImage) {
+  public UserTienda(String username, String email, String password, Rol rol, Boolean alta) {
     this.username = username;
     this.email = email;
     this.password = password;
-    this.userImage = userImage;
+    this.rol = rol;
+    this.alta = alta;
   }
-
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
    return List.of(new SimpleGrantedAuthority(rol.name()));
-  }
-
-
-  @Override
-  public String getUsername() {
-    // TODO Auto-generated method stub
-    return null;
   }
 
 
