@@ -1,5 +1,5 @@
 # Tienda Midas
-## Gestiona tus productos y muéstraselos a tus clientes para que realicen su compra
+## Gestiona productos y los muestra a sus clientes para que realicen su compra
 #### ApiRest desarrollada con Java 17 en SpringBoot 3 con Spring Security 6 y manejo de datos a través de JPA y MySql.
 #### Para la seguridad implementé una configuración Json Web Token.
 #### Para documentar utilicé Swagger con la dependencia correspondiente por no ser compatible SpringFox con SpringBoot3
