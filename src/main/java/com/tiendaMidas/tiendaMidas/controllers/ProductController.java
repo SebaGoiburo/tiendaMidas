@@ -44,7 +44,6 @@ public class ProductController {
     }
 
     @PostMapping("/createProduct")
-    @PreAuthorize("hasAnyRole('ADMIN')")
     public void createProduct(@RequestParam String nombre, Double precio, Integer stock, MultipartFile imageProduct ){
         try {
             productService.createProduct(nombre, precio, stock, imageProduct);

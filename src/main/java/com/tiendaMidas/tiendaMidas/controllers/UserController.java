@@ -24,15 +24,15 @@ public class UserController {
     private UserService userService;
 
     
-    @PostMapping("/singin")
-    public void signin(@RequestParam String email, String password, String userName, MultipartFile image,  HttpServletRequest request){
-        try {
-            userService.createUser(email, password, userName, image);
-            request.login(email, password);
-        } catch (SpringException e) {
-        } catch (ServletException e) {
-        }
-    }    
+    // @PostMapping("/singin")
+    // public void signin(@RequestParam String email, String password, String userName, MultipartFile image,  HttpServletRequest request){
+    //     try {
+    //         userService.createUser(email, password, userName, image);
+    //         request.login(email, password);
+    //     } catch (SpringException e) {
+    //     } catch (ServletException e) {
+    //     }
+    // }    
 
     @GetMapping("/listUsers")
     @PreAuthorize("hasAnyRole('ADMIN')")

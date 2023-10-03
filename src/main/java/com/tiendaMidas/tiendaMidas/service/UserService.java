@@ -29,7 +29,7 @@ import com.tiendaMidas.tiendaMidas.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService{
 
   @Autowired
   private UserRepository userRepository;
@@ -45,36 +45,31 @@ public class UserService implements UserDetailsService {
 
   private String mensaje = "No existe ningún usuario asociado con el ID %s";
 
-  @Transactional
-  public void createUser(String email, String password, String userName, MultipartFile image) throws SpringException {
-    if (userRepository.existsByEmail(email)) {
-      throw new SpringException("Ya existe un usuario asociado al correo ingresado");
-    }
-    UserTienda userTienda = new UserTienda();
-    userTienda.setEmail(email);
-    userTienda.setUser_name(userName);
-    userTienda.setPassword(encoder.encode(password));
-    //Si el usuario no ingresa una foto, le seteamos una foto por defecto
-    if (image.isEmpty()) {
-      userTienda.setUserImage(imageRepository.findByNombre("user"));
-    } else {
-      userTienda.setUserImage(imageService.keep(image));
-    }
-    userTienda.setAlta(true);
-    //Si se trata del primer usuario en registrarse, lo convertimos en Administrador, si no le damos el estatus de Cliente
-    if (userRepository.findAll().isEmpty()) {
-      userTienda.setRol(Rol.ADMIN);
-    } else {
-      userTienda.setRol(Rol.CUSTOMER);
-    } 
-    userRepository.save(userTienda);
-  }
+  // @Transactional
+  // public void createUser(String email, String password, String userName, MultipartFile image) throws SpringException {
+  //   if (userRepository.existsByEmail(email)) {
+  //     throw new SpringException("Ya existe un usuario asociado al correo ingresado");
+  //   }
+  //   UserTienda userTienda = new UserTienda();
+  //   userTienda.setEmail(email);
+  //   userTienda.setUser_name(userName);
+  //   userTienda.setPassword(encoder.encode(password));
+  //   userTienda.setUserImage(imageService.keep(image));
+  //   userTienda.setAlta(true);
+  //   //Si se trata del primer usuario en registrarse, lo convertimos en Administrador, si no le damos el estatus de Cliente
+  //   if (userRepository.findAll().isEmpty()) {
+  //     userTienda.setRol(Rol.ADMIN);
+  //   } else {
+  //     userTienda.setRol(Rol.CUSTOMER);
+  //   } 
+  //   userRepository.save(userTienda);
+  // }
 
   @Transactional
   public void updateUser(UserTienda dto, MultipartFile image) throws SpringException {
     UserTienda userTienda = userRepository.findById(dto.getId())
         .orElseThrow(() -> new SpringException(String.format(mensaje, dto.getId())));
-    userTienda.setUser_name(dto.getUser_name());
+    userTienda.setUsername(dto.getUsername());
     userTienda.setPassword(encoder.encode(dto.getPassword()));
 
     Image img = new Image();
@@ -110,19 +105,19 @@ public class UserService implements UserDetailsService {
     }
   }
 
-  @Override
-  public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-    UserTienda userTienda = userRepository.findByEmail(email)
-        .orElseThrow(() -> new UsernameNotFoundException("No existe un usuario asociado al correo ingresado"));
-    GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + userTienda.getRol().name());
+  // @Override
+  // public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+  //   UserTienda userTienda = userRepository.findByEmail(email)
+  //       .orElseThrow(() -> new UsernameNotFoundException("No existe un usuario asociado al correo ingresado"));
+  //   GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + userTienda.getRol().name());
 
-    ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder
-        .currentRequestAttributes();
-    HttpSession session = attributes.getRequest().getSession(true);
+  //   ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder
+  //       .currentRequestAttributes();
+  //   HttpSession session = attributes.getRequest().getSession(true);
 
-    session.setAttribute("usuariosession", userTienda);
+  //   session.setAttribute("usuariosession", userTienda);
 
-    return new User(userTienda.getEmail(), userTienda.getPassword(), Collections.singletonList(authority));
-  }
+  //   return new User(userTienda.getEmail(), userTienda.getPassword(), Collections.singletonList(authority));
+  // }
 
 }

@@ -1,32 +1,35 @@
 package com.tiendaMidas.tiendaMidas.security;
 
+import java.security.AuthProvider;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.tiendaMidas.tiendaMidas.jwt.JwtAuthenticationFilter;
+
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
-    @Bean
-    public PasswordEncoder encoder() {
-        return new BCryptPasswordEncoder();
-    }
+    private final JwtAuthenticationFilter jwtAuthenticationFilter; 
+
+    private final AuthenticationProvider authProvider;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http
-                .csrf()
-                .disable()
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
+    return http.csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(authRequest -> 
+                authRequest.requestMatchers("/auth/**", 
                             "/api/v1/auth/**",
                             "/v2/api-docs",
                             "/v3/api-docs",
@@ -36,23 +39,18 @@ public class SecurityConfig {
                             "/configuration/ui",
                             "/configuration/security",
                             "/swagger-ui/**",
-                            "/swagger-ui.html",
+                            "/sw)agger-ui.html",
                             "/context-path/swagger-ui.html",
                             "/signin",
                             "/login").permitAll()
-                        .anyRequest().authenticated());
-                // .formLogin(form -> form
-                //                 .loginPage("/login")
-                //                 .usernameParameter("email")
-                //                 .passwordParameter("password")
-                //         )
-                // .logout(logout -> logout
-                //     .logoutUrl("/logout")
-                //     .invalidateHttpSession(true)
-                //     .deleteCookies("JSESSIONID"))
-                // ;
-
-        return http.build();
+                            .anyRequest().authenticated()
+                            )
+                    .sessionManagement(sessionManager -> sessionManager
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                    .authenticationProvider(authProvider) 
+                    .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                            .build();
     }
+
 
 }
