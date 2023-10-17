@@ -27,10 +27,7 @@ public class ProductService {
     if (productRepository.findByNombre(nombre).isPresent()) {
       throw new SpringException("Ya existe un producto registrado con ese nombre");
     }
-    Product producto = new Product();
-    producto.setNombre(nombre);
-    producto.setPrecio(precio);
-    producto.setStock(stock);
+    Product producto = new Product(nombre, precio, stock);
     //Se valida si el usuario ingresa una imagen antes de setearla en el atributo del objeto producto
     if (!img.isEmpty()) {
       producto.setProductImage(imageService.keep(img));

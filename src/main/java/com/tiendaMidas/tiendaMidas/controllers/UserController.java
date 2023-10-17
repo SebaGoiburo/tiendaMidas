@@ -10,7 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tiendaMidas.tiendaMidas.entities.UserTienda;
 import com.tiendaMidas.tiendaMidas.service.UserService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
+@SecurityRequirement(name = "bearerAuth")
 public class UserController {
 
     @Autowired 

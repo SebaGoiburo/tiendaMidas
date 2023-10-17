@@ -15,8 +15,12 @@ import com.tiendaMidas.tiendaMidas.entities.Purchase;
 import com.tiendaMidas.tiendaMidas.exception.SpringException;
 import com.tiendaMidas.tiendaMidas.service.PurchaseService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/purchase")
+@SecurityRequirement(name = "bearerAuth")
 public class PurchaseController {
     
     @Autowired

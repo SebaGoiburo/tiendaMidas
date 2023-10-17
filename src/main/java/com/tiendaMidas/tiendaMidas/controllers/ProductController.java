@@ -23,8 +23,12 @@ import com.tiendaMidas.tiendaMidas.repository.ProductRepository;
 import com.tiendaMidas.tiendaMidas.service.ProductService;
 import com.tiendaMidas.tiendaMidas.service.UserService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
+
 @RestController
 @RequestMapping("/product")
+@SecurityRequirement(name = "bearerAuth")
 public class ProductController {
     
     @Autowired
@@ -44,6 +48,7 @@ public class ProductController {
     }
 
     @PostMapping("/createProduct")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public void createProduct(@RequestParam String nombre, Double precio, Integer stock, MultipartFile imageProduct ){
         try {
             productService.createProduct(nombre, precio, stock, imageProduct);

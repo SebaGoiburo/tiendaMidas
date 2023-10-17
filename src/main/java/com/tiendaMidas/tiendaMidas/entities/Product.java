@@ -30,14 +30,12 @@ public class Product {
 
     private boolean alta;
 
-    public Product() {
-    }
-
-    public Product(String categoria, String nombre, double precio, int stock, Image productImage) {
+    public Product(String nombre, double precio, int stock) {
         this.nombre = nombre;
         this.precio = precio;
         this.stock = stock;
-        this.productImage = productImage;
     }
+
+    
 
 }

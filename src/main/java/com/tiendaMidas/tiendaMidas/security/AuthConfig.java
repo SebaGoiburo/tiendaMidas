@@ -40,20 +40,11 @@ public class AuthConfig {
         return new BCryptPasswordEncoder() ;
     }
 
+    @Bean
     public UserDetailsService userDetailsService() {
         return username -> userRepository.findByUsername(username)
         .orElseThrow(()-> new UsernameNotFoundException("User not fournd"));
     }
 
-    // @Autowired
-    // public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-    //     auth
-    //             .userDetailsService(userService)
-    //             .passwordEncoder(encoder)
-    //             .and()
-    //             .inMemoryAuthentication()
-    //             .withUser("user").password("{noop}pass").roles("USER")
-    //             .and()
-    //             .withUser("admin").password("{noop}pass").roles("ADMIN");
-    // }
+    
 }

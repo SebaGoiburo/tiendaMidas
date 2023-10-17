@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -14,7 +15,7 @@ import com.tiendaMidas.tiendaMidas.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -37,7 +38,7 @@ public class SecurityConfig {
                             "/configuration/ui",
                             "/configuration/security",
                             "/swagger-ui/**",
-                            "/sw)agger-ui.html",
+                            "/swagger-ui.html",
                             "/context-path/swagger-ui.html",
                             "/signin",
                             "/login").permitAll()
